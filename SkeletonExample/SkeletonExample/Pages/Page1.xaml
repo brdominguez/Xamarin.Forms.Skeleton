@@ -4,7 +4,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:SkeletonExample.Controls"
-    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:pages="clr-namespace:SkeletonExample.Pages"
@@ -53,7 +52,6 @@
                                 HasShadow="False">
 
                                 <Label
-                                    d:FontSize="14"
                                     FontSize="14"
                                     HorizontalOptions="Start"
                                     Text="{Binding Subtitle}"

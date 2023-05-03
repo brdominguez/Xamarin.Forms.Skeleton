@@ -231,6 +231,9 @@ namespace Xamarin.Forms.Skeleton
             Guid viewId = listView.Id;
 
             if (template is null && mockNumber <= 0)
+                return;
+
+            if (template is null || mockNumber <= 0)
                 throw new InvalidOperationException("Must add template or fill the mocknumber");
 
             //Save Template
@@ -260,6 +263,9 @@ namespace Xamarin.Forms.Skeleton
             Guid viewId = collectionView.Id;
 
             if (template is null && mockNumber <= 0)
+                return;
+
+            if (template is null || mockNumber <= 0)
                 throw new InvalidOperationException("Must add template or fill the mocknumber");
 
             //Save template
@@ -286,6 +292,9 @@ namespace Xamarin.Forms.Skeleton
         private static void RemoveMockupList(BindableObject bindable, ListView listView)
         {
             Guid viewId = listView.Id;
+            if (!_internalListDataTemplates.ContainsKey(viewId))
+                return;
+
             listView.ItemsSource = null;
             listView.ItemTemplate = _internalListDataTemplates[viewId];
             listView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
@@ -293,6 +302,9 @@ namespace Xamarin.Forms.Skeleton
         private static void RemoveMockupList(BindableObject bindable, CollectionView collectionView)
         {
             Guid viewId = collectionView.Id;
+            if (!_internalListDataTemplates.ContainsKey(viewId))
+                return;
+
             collectionView.ItemsSource = null;
             collectionView.ItemTemplate = _internalListDataTemplates[viewId];
             collectionView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
