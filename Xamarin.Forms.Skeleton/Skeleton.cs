@@ -132,8 +132,8 @@ namespace Xamarin.Forms.Skeleton
         #endregion Internal Properties
 
         #region Private Fields
-        private static DataTemplate internalListdataTemplate;
-        private static Binding listviewBinding;
+        static Dictionary<Guid, DataTemplate> _internalListDataTemplates = new Dictionary<Guid, DataTemplate>();
+        static Dictionary<Guid, Binding> _listViewBindings = new Dictionary<Guid, Binding>();
         #endregion Private Fields
 
         #region Operations
@@ -228,17 +228,18 @@ namespace Xamarin.Forms.Skeleton
         {
             DataTemplate template = GetMockItemTemplate(bindable);
             int mockNumber = GetMockItemNumber(bindable);
+            Guid viewId = listView.Id;
 
             if (template is null && mockNumber <= 0)
                 throw new InvalidOperationException("Must add template or fill the mocknumber");
 
             //Save Template
-            internalListdataTemplate = listView.ItemTemplate;
+            _internalListDataTemplates[viewId] = listView.ItemTemplate;
             listView.ItemTemplate = template;
 
-            listviewBinding = listView.GetBinding(ListView.ItemsSourceProperty);
+            _listViewBindings[viewId] = listView.GetBinding(ListView.ItemsSourceProperty);
 
-            if (listviewBinding is null)
+            if (_listViewBindings[viewId] is null)
                 throw new InvalidOperationException("Must create Binding to ListView's ItemsSource");
 
             listView.RemoveBinding(ListView.ItemsSourceProperty);
@@ -256,17 +257,18 @@ namespace Xamarin.Forms.Skeleton
         {
             DataTemplate template = GetMockItemTemplate(bindable);
             int mockNumber = GetMockItemNumber(bindable);
+            Guid viewId = collectionView.Id;
 
             if (template is null && mockNumber <= 0)
                 throw new InvalidOperationException("Must add template or fill the mocknumber");
 
             //Save template
-            internalListdataTemplate = collectionView.ItemTemplate;
+            _internalListDataTemplates[viewId] = collectionView.ItemTemplate;
             collectionView.ItemTemplate = template;
             //Get Binding
-            listviewBinding = collectionView.GetBinding(ListView.ItemsSourceProperty);
+            _listViewBindings[viewId] = collectionView.GetBinding(ListView.ItemsSourceProperty);
 
-            if (listviewBinding is null)
+            if (_listViewBindings[viewId] is null)
                 throw new InvalidOperationException("Must create Binding to ListView's ItemsSource");
 
             collectionView.RemoveBinding(ListView.ItemsSourceProperty);
@@ -283,15 +285,17 @@ namespace Xamarin.Forms.Skeleton
 
         private static void RemoveMockupList(BindableObject bindable, ListView listView)
         {
+            Guid viewId = listView.Id;
             listView.ItemsSource = null;
-            listView.ItemTemplate = internalListdataTemplate;
-            listView.SetBinding(ListView.ItemsSourceProperty, listviewBinding);
+            listView.ItemTemplate = _internalListDataTemplates[viewId];
+            listView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
         }
         private static void RemoveMockupList(BindableObject bindable, CollectionView collectionView)
         {
+            Guid viewId = collectionView.Id;
             collectionView.ItemsSource = null;
-            collectionView.ItemTemplate = internalListdataTemplate;
-            collectionView.SetBinding(ListView.ItemsSourceProperty, listviewBinding);
+            collectionView.ItemTemplate = _internalListDataTemplates[viewId];
+            collectionView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
         }
 
         private static void RestoreLayoutChilds(Layout layout)
