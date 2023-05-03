@@ -1,6 +1,10 @@
 ﻿using System.Reflection;
 
+#if NET6_0_OR_GREATER
+namespace Maui.Skeleton.Extensions
+#else
 namespace Xamarin.Forms.Skeleton.Extensions
+#endif
 {
     public static class BindingObjectExtensions
     {

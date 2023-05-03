@@ -1,10 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+#if NET6_0_OR_GREATER
+using Maui.Skeleton.Animations;
+using Maui.Skeleton.Extensions;
+#else
 using Xamarin.Forms.Skeleton.Animations;
 using Xamarin.Forms.Skeleton.Extensions;
+#endif
 
+
+#if NET6_0_OR_GREATER
+namespace Maui.Skeleton
+#else
 namespace Xamarin.Forms.Skeleton
+#endif
 {
     public static class Skeleton
     {
@@ -146,7 +156,9 @@ namespace Xamarin.Forms.Skeleton
                     SetBackgroundColor(view);
 
                     RunAnimation(view);
-                }             }             else
+                }
+            }
+            else
             {
                 if (GetHide(bindable))
                 {
@@ -173,13 +185,14 @@ namespace Xamarin.Forms.Skeleton
                         RestoreTextColor(view);
                     }
                 }
-            }         }
+            }
+        }
 
         private static void SetLayoutChilds(Layout layout)
         {
             if (layout.Children != null && layout.Children.Count > 0)
             {
-                layout.Children.ToList().ForEach(x => x.SetValue(VisualElement.OpacityProperty, 0));
+                layout.Children.ToList().ForEach(x => ((View)x).SetValue(VisualElement.OpacityProperty, 0));
             }
         }
 
@@ -273,7 +286,7 @@ namespace Xamarin.Forms.Skeleton
         {
             if (layout.Children != null && layout.Children.Count > 0)
             {
-                layout.Children.ToList().ForEach(x => x.SetValue(VisualElement.OpacityProperty, 1));
+                layout.Children.ToList().ForEach(x => ((View)x).SetValue(VisualElement.OpacityProperty, 1));
             }
         }
 
@@ -313,13 +326,21 @@ namespace Xamarin.Forms.Skeleton
             {
                 hasDynamic = hasDynamic || label.HasDynamicColorOnProperty(Label.TextColorProperty);
                 SetOriginalTextColor(label, label.TextColor);
+#if NET6_0_OR_GREATER
+                label.TextColor = Colors.Transparent;
+#else
                 label.TextColor = Color.Transparent;
+#endif
             }
             else if (view is Button button)
             {
                 hasDynamic = hasDynamic || button.HasDynamicColorOnProperty(Button.TextColorProperty);
                 SetOriginalTextColor(button, button.TextColor);
+#if NET6_0_OR_GREATER
+                button.TextColor = Colors.Transparent;
+#else
                 button.TextColor = Color.Transparent;
+#endif
             }
 
             SetUseDynamicTextColor(view, hasDynamic);
