@@ -52,6 +52,9 @@
     <Compile Include="..\Xamarin.Forms.Skeleton\Animations\VerticalShakeAnimation.cs">
       <Link>Animations\VerticalShakeAnimation.cs</Link>
     </Compile>
+    <Compile Include="..\Xamarin.Forms.Skeleton\Extensions\BindingObjectExtensions.cs">
+      <Link>Extensions\BindingObjectExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xamarin.Forms.Skeleton\Extensions\DefaultAnimationExtension.cs">
       <Link>Extensions\DefaultAnimationExtension.cs</Link>
     </Compile>

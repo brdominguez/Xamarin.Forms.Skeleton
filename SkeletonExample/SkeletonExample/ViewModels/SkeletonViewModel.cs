@@ -20,47 +20,6 @@ namespace SkeletonExample.ViewModels
 
         protected override async void OnLoadCommandExecute()
         {
-            var title = "XXXXXXXXXXX";
-
-            this.Items = new ObservableCollection<Item>(new List<Item> {
-                new Item
-                {
-                    Title = title,
-                    Subtitle = title,
-                    IsBusy = true
-                },
-                new Item
-                {
-                    Title = title,
-                    Subtitle = title,
-                    IsBusy = true
-                },
-                new Item
-                {
-                    Title = title,
-                    Subtitle = title,
-                    IsBusy = true
-                },
-                new Item
-                {
-                    Title = title,
-                    Subtitle = title,
-                    IsBusy = true
-                },
-                new Item
-                {
-                    Title = title,
-                    Subtitle = title,
-                    IsBusy = true
-                },
-                new Item
-                {
-                    Title = title,
-                    Subtitle = title,
-                    IsBusy = true
-                },
-            });
-
             this.IsBusy = true;
             await Task.Delay(2500);
             this.IsBusy = false;
