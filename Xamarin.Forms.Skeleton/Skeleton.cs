@@ -202,31 +202,34 @@ namespace Xamarin.Forms.Skeleton
             int mockNumber = GetMockItemNumber(bindable);
             Guid viewId = listView.Id;
 
-            if (template is null && mockNumber <= 0)
-                return;
-
-            if (template is null || mockNumber <= 0)
-                throw new InvalidOperationException("Must add template or fill the mocknumber");
-
-            //Save Template
-            _internalListDataTemplates[viewId] = listView.ItemTemplate;
-            listView.ItemTemplate = template;
-
-            _listViewBindings[viewId] = listView.GetBinding(ListView.ItemsSourceProperty);
-
-            if (_listViewBindings[viewId] is null)
-                throw new InvalidOperationException("Must create Binding to ListView's ItemsSource");
-
-            listView.RemoveBinding(ListView.ItemsSourceProperty);
-
-            List<object> list = new List<object>(mockNumber);
-
-            for (int i = 0; i < mockNumber; i++)
+            if (template != null)
             {
-                list.Add(new object());
+                if (mockNumber <= 0)
+                    throw new InvalidOperationException("MockNumber must be greater than 0 to use MockTemplate");
+
+                //Save Template
+                _internalListDataTemplates[viewId] = listView.ItemTemplate;
+                listView.ItemTemplate = template;
             }
 
-            listView.ItemsSource = list;
+            if (mockNumber > 0) {
+                // Get Binding
+                _listViewBindings[viewId] = listView.GetBinding(ListView.ItemsSourceProperty);
+
+                if (_listViewBindings[viewId] is null)
+                    throw new InvalidOperationException("Must create Binding to ListView's ItemsSource");
+
+                listView.RemoveBinding(ListView.ItemsSourceProperty);
+
+                List<object> list = new List<object>(mockNumber);
+
+                for (int i = 0; i < mockNumber; i++)
+                {
+                    list.Add(new object());
+                }
+
+                listView.ItemsSource = list;
+            }
         }
         private static void CreateMockupList(BindableObject bindable, CollectionView collectionView)
         {
@@ -234,52 +237,66 @@ namespace Xamarin.Forms.Skeleton
             int mockNumber = GetMockItemNumber(bindable);
             Guid viewId = collectionView.Id;
 
-            if (template is null && mockNumber <= 0)
-                return;
-
-            if (template is null || mockNumber <= 0)
-                throw new InvalidOperationException("Must add template or fill the mocknumber");
-
-            //Save template
-            _internalListDataTemplates[viewId] = collectionView.ItemTemplate;
-            collectionView.ItemTemplate = template;
-            //Get Binding
-            _listViewBindings[viewId] = collectionView.GetBinding(ListView.ItemsSourceProperty);
-
-            if (_listViewBindings[viewId] is null)
-                throw new InvalidOperationException("Must create Binding to ListView's ItemsSource");
-
-            collectionView.RemoveBinding(ListView.ItemsSourceProperty);
-
-            List<object> list = new List<object>(mockNumber);
-
-            for (int i = 0; i < mockNumber; i++)
+            if (template != null)
             {
-                list.Add(new object());
+                if (mockNumber <= 0)
+                    throw new InvalidOperationException("MockNumber must be greater than 0 to use MockTemplate");
+
+                //Save Template
+                _internalListDataTemplates[viewId] = collectionView.ItemTemplate;
+                collectionView.ItemTemplate = template;
             }
 
-            collectionView.ItemsSource = list;
+            if (mockNumber > 0)
+            {
+                //Get Binding
+                _listViewBindings[viewId] = collectionView.GetBinding(ListView.ItemsSourceProperty);
+
+                if (_listViewBindings[viewId] is null)
+                    throw new InvalidOperationException("Must create Binding to ListView's ItemsSource");
+
+                collectionView.RemoveBinding(ListView.ItemsSourceProperty);
+
+                List<object> list = new List<object>(mockNumber);
+
+                for (int i = 0; i < mockNumber; i++)
+                {
+                    list.Add(new object());
+                }
+
+                collectionView.ItemsSource = list;
+            }
         }
 
         private static void RemoveMockupList(BindableObject bindable, ListView listView)
         {
             Guid viewId = listView.Id;
-            if (!_internalListDataTemplates.ContainsKey(viewId))
-                return;
+            if (_listViewBindings.ContainsKey(viewId))
+            {
+                listView.ItemsSource = null;
 
-            listView.ItemsSource = null;
-            listView.ItemTemplate = _internalListDataTemplates[viewId];
-            listView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
+                if (_internalListDataTemplates.ContainsKey(viewId))
+                {
+                    listView.ItemTemplate = _internalListDataTemplates[viewId];
+                }
+
+                listView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
+            }
         }
         private static void RemoveMockupList(BindableObject bindable, CollectionView collectionView)
         {
             Guid viewId = collectionView.Id;
-            if (!_internalListDataTemplates.ContainsKey(viewId))
-                return;
+            if (_listViewBindings.ContainsKey(viewId))
+            {
+                collectionView.ItemsSource = null;
 
-            collectionView.ItemsSource = null;
-            collectionView.ItemTemplate = _internalListDataTemplates[viewId];
-            collectionView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
+                if (_internalListDataTemplates.ContainsKey(viewId))
+                {
+                    collectionView.ItemTemplate = _internalListDataTemplates[viewId];
+                }
+
+                collectionView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
+            }
         }
 
         private static void RestoreLayoutChilds(Layout layout)

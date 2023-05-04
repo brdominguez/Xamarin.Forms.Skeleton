@@ -6,12 +6,19 @@
                 xmlns:controls="clr-namespace:SkeletonExample.Controls;assembly=SkeletonExample"
                 xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                 xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+                xmlns:viewModels="clr-namespace:SkeletonExample.ViewModels;assembly=SkeletonExample"
                 x:Class="SkeletonExample.Pages.Skeleton"
                 Title="Skeleton"
                 IconImageSource="ic_skeleton.png"
                 ios:Page.UseSafeArea="False">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <Style TargetType="VisualElement"
+                   Class="SkBusy"
+                   ApplyToDerivedTypes="True">
+                <Setter Property="sk:Skeleton.IsBusy" Value="{Binding IsBusy, Source={RelativeSource AncestorType={x:Type viewModels:SkeletonViewModel}}}" />
+            </Style>
+
             <DataTemplate x:Key="ItemTemplate">
                 <ViewCell>
                     <StackLayout Orientation="Horizontal"
@@ -24,8 +31,8 @@
                                WidthRequest="70"
                                IsClippedToBounds="True"
                                BackgroundColor="{StaticResource WhiteColor}"
+                               StyleClass="SkBusy"
                                sk:Skeleton.IsParent="True"
-                               sk:Skeleton.IsBusy="{Binding IsBusy}"
                                sk:Skeleton.BackgroundColor="{StaticResource GrayColor}">
                             <ffimageloading:CachedImage Source="{Binding Image}"
                                                         Aspect="AspectFill"/>
@@ -37,9 +44,9 @@
                                    CornerRadius="5"
                                    Padding="0"
                                    HorizontalOptions="Start"
-                                   sk:Skeleton.IsBusy="{Binding IsBusy}"
+                                   StyleClass="SkBusy"
                                    sk:Skeleton.BackgroundColor="{StaticResource GrayColor}">
-                                <Label Text="{Binding Title}"
+                                <Label Text="{Binding Title, FallbackValue='XXXXXXXXXXX'}"
                                        TextColor="{StaticResource BlackColor}"
                                        FontSize="20"
                                        FontAttributes="Bold"
@@ -50,9 +57,9 @@
                                    CornerRadius="5"
                                    Padding="0"
                                    HorizontalOptions="Start"
-                                   sk:Skeleton.IsBusy="{Binding IsBusy}"
+                                   StyleClass="SkBusy"
                                    sk:Skeleton.BackgroundColor="{StaticResource GrayColor}">
-                                <Label Text="{Binding Subtitle}"
+                                <Label Text="{Binding Subtitle, FallbackValue='XXXXXXXXXXX'}"
                                        TextColor="{StaticResource DarkGrayColor}"
                                        FontSize="14"
                                        HorizontalOptions="Start"/>
@@ -66,15 +73,15 @@
                                    Padding="0"
                                    IsClippedToBounds="True"
                                    BackgroundColor="Transparent"
-                                   HorizontalOptions="End" 
+                                   HorizontalOptions="End"
                                    sk:Skeleton.IsParent="True"
-                                   sk:Skeleton.IsBusy="{Binding IsBusy}"
+                                   StyleClass="SkBusy"
                                    sk:Skeleton.BackgroundColor="{StaticResource GrayColor}">
                                 <ffimageloading:CachedImage WidthRequest="20"
                                                             HeightRequest="20"
                                                             Source="health.png"
                                                             Aspect="AspectFill"
-                                                            sk:Skeleton.IsBusy="{Binding IsBusy}"
+                                                            StyleClass="SkBusy"
                                                             sk:Skeleton.Hide="True"/>
                             </Frame>
                         </StackLayout>
@@ -233,7 +240,8 @@
                               ItemTemplate="{StaticResource ItemTemplate}"
                               ItemsSource="{Binding Items}"
                               sk:Skeleton.IsParent="True"
-                              sk:Skeleton.IsBusy="{Binding IsBusy}" />
+                              sk:Skeleton.IsBusy="{Binding IsBusy}"
+                              sk:Skeleton.MockItemNumber="4" />
                 </StackLayout>
             </controls:StickyHeader.Content>
         </controls:StickyHeader>
