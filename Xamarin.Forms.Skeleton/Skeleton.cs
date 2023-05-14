@@ -204,8 +204,8 @@ namespace Xamarin.Forms.Skeleton
 
             if (template != null)
             {
-                if (mockNumber <= 0)
-                    throw new InvalidOperationException("MockNumber must be greater than 0 to use MockTemplate");
+                // if (mockNumber <= 0)
+                //     throw new InvalidOperationException("MockNumber must be greater than 0 to use MockTemplate");
 
                 //Save Template
                 _internalListDataTemplates[viewId] = listView.ItemTemplate;
@@ -271,14 +271,16 @@ namespace Xamarin.Forms.Skeleton
         private static void RemoveMockupList(BindableObject bindable, ListView listView)
         {
             Guid viewId = listView.Id;
+            if (_internalListDataTemplates.ContainsKey(viewId)) {
+                listView.ItemTemplate = null;
+                listView.ItemTemplate = _internalListDataTemplates[viewId];
+            }
+            
             if (_listViewBindings.ContainsKey(viewId))
             {
                 listView.ItemsSource = null;
 
-                if (_internalListDataTemplates.ContainsKey(viewId))
-                {
-                    listView.ItemTemplate = _internalListDataTemplates[viewId];
-                }
+                
 
                 listView.SetBinding(ListView.ItemsSourceProperty, _listViewBindings[viewId]);
             }
